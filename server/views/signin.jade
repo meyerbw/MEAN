@@ -1,0 +1,10 @@
+extends layouts/layout
+
+block content
+  h1= title
+  form(method="POST")
+      label email
+      input(name="email")
+      label password
+      input(name="password", type="password")
+      input(type="submit", value="Sign in")

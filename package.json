@@ -1,0 +1,18 @@
+{
+  "name": "ezs-mean-boilerplate",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.4.0",
+    "jade": "*",
+    "less-middleware": "*",
+    "mongoose": "~3.6.20",
+    "postmark": "~0.2.0",
+    "winston": "~0.7.2",
+    "passport": "~0.1.17",
+    "passport-local": "~0.1.6"
+  }
+}
