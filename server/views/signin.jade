@@ -1,9 +1,11 @@
 extends layouts/layout
 
-block content
+block head
+    != css('single-form')
 
-  form(method="POST").form-signin
-      h2.form-signin-heading Please sign in
+block content
+  form(method="POST").form-single
+      h2.form-single-heading Please sign in
       input(name="email", type="text", placeholder="Email Address").form-control
       input(name="password", type="password", placeholder="Password").form-control
       input(type="submit", value="Sign in").btn.btn-primary.btn-lg.btn-block
