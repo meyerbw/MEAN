@@ -1,10 +1,9 @@
 extends layouts/layout
 
 block content
-  h1= title
-  form(method="POST")
-      label email
-      input(name="email")
-      label password
-      input(name="password", type="password")
-      input(type="submit", value="Sign in")
+
+  form(method="POST").form-signin
+      h2.form-signin-heading Please sign in
+      input(name="email", type="text", placeholder="Email Address").form-control
+      input(name="password", type="password", placeholder="Password").form-control
+      input(type="submit", value="Sign in").btn.btn-primary.btn-lg.btn-block

@@ -1,9 +1,12 @@
 doctype 5
-html
-  head
-    title= title
-    != css('style')
-  body
-    block content
+html(lang="en")
+    head
+        title= title
+        != css('style')
+        != css('signin')
+    body
+        .container
+            block content
+        != js('frameworks')
 
-    != js('frameworks')
+
