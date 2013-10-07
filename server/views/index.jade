@@ -1,6 +1,12 @@
 extends layouts/layout
 
+block head
+    != css('single-form')
+
+block primary-navigation
+    include includes/primary-navigation
+
+
 block content
-  h1= title
+  h1 Welcome to MEAN
   p Welcome to our sample page.
-  a(href="/sign-out") Sign out
