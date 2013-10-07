@@ -88,7 +88,7 @@ exports.Register = function(req, res) {
     });
 };
 
-exports.SignOut = function(req, res, next) {
+exports.SignOut = function(req, res) {
     req.logout();
     res.redirect('/');
 };
