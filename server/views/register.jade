@@ -19,12 +19,12 @@ block content
                 li(ng-repeat="error in Errors") {{error.message}}
 
         form(name="RegisterForm", autocomplete="off", novalidate, ng-submit="Submit()", ng-show='!RequestComplete')
-            .form-group(ng-class="{'has-error required': RegisterForm.email.$dirty && RegisterForm.email.$invalid, 'has-success':RegisterForm.email.$dirty && !RegisterForm.email.$invalid, 'invalid-email':RegisterForm.email.$dirty && RegisterForm.email.$error.email}")
+            .form-group(ng-class="{'has-error required': RegisterForm.email.$dirty && RegisterForm.email.$invalid, 'has-success':RegisterForm.email.$dirty && !RegisterForm.email.$invalid, 'invalid-email':RegisterForm.email.$dirty && RegisterForm.email.$error.email, 'already-taken':RegisterForm.email.$dirty && RegisterForm.email.$error.uniqueEmail}")
                 label.sr-only Email Address
                 .input-group
                     span.input-group-addon
                         i.glyphicon.glyphicon-user.glyphicon-user
-                    input(ng-model="Register.email", name="email", type="email", placeholder="Email Address", required='required', ng-disabled="ProcessingRequest").form-control
+                    input(ng-model="Register.email", name="email", type="email", placeholder="Email Address", required='required', ng-disabled="ProcessingRequest", unique-email).form-control
                 p.help-block.ng-cloak(ng-show="RegisterForm.email.$dirty && RegisterForm.email.$error.required")
                     | This field is required
                 p.help-block.ng-cloak(ng-show="RegisterForm.email.$dirty && RegisterForm.email.$error.email")

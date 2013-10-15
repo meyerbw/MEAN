@@ -14,7 +14,7 @@ module.exports = function(app) {
 
     //General Account Actions
     app.get('/forgot-password', UserAccountController.ShowForgotPassword);
-    app.post('/forgot-password', UserAccountController.ForgotPassword)
+    app.post('/forgot-password', UserAccountController.ForgotPassword);
 
     app.get('/reset-password', UserAccountController.ShowResetPassword);
     app.post('/reset-password', UserAccountController.ResetPassword);
@@ -28,6 +28,7 @@ module.exports = function(app) {
     app.get('/register', UserAccountController.ShowRegister);
     app.post('/register', UserAccountController.Register);
 
+    app.post('/user/is-unique', UserAccountController.isUnique)
 
 
 };

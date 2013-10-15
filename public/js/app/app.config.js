@@ -3,5 +3,6 @@ angular.module('mean')
         SignIn: '/sign-in',
         ForgotPassword: '/forgot-password',
         Register: '/register',
-        ResetPassword: '/reset-password'
+        ResetPassword: '/reset-password',
+        User: '/user/:action'
     });

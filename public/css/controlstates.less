@@ -29,6 +29,11 @@
         content: 'Invalid email';
       }
     }
+    &.already-taken {
+      .input-group:after {
+        content: 'already taken';
+      }
+    }
   }
 
   &.has-success {

@@ -26,11 +26,9 @@ var UserAccountService = function () {
 
     self.forgotPassword = function (email) {
         user.findAndSetForgotPassword({email: email}, function findAndSetForgotPasswordCallback(error, wasFound, foundUser) {
-            if (error)
-                return self.emit('Error', error);
+            if (error) return self.emit('Error', error);
 
-            if (!wasFound)
-                return self.emit('UnableToFindUser');
+            if (!wasFound) return self.emit('UnableToFindUser');
 
 
             mailer.send('ForgotPassword', {to:foundUser.email}, 'TEST - ForgotPassword', foundUser, function sendMailCallback(error) {
@@ -54,7 +52,7 @@ var UserAccountService = function () {
                 if (error)
                     return self.emit('Error', error);
 
-                self.emit('SuccessfullySentResetPasswordEmail', foundUser);
+                return self.emit('SuccessfullySentResetPasswordEmail', foundUser);
             })
         });
     };
@@ -69,9 +67,21 @@ var UserAccountService = function () {
                 if (error)
                     return self.emit('Error', error);
 
-                self.emit('SuccessfullySentRegistrationCompletedEmail', newUser);
+                return self.emit('SuccessfullySentRegistrationCompletedEmail', newUser);
             });
         })
+    };
+
+    self.isUnique = function(email) {
+        user.findOne({email: email}, function(error, user) {
+            if(error) return self.emit('Error', error);
+            if(!user) return self.emit('UnableToFindUser');
+            return self.emit('UserFound');
+        });
+    };
+
+    self.createService = function() {
+      return new UserAccountService();
     };
 };
 

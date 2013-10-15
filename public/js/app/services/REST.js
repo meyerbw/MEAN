@@ -4,6 +4,9 @@ angular.module('mean')
             'SignIn': $resource(EndPointUrls.SignIn),
             'ForgotPassword': $resource(EndPointUrls.ForgotPassword),
             'ResetPassword': $resource(EndPointUrls.ResetPassword),
-            'Register': $resource(EndPointUrls.Register)
+            'Register': $resource(EndPointUrls.Register),
+            'User': $resource(EndPointUrls.User, {}, {
+                isUnique: { method:'POST', params: {action: 'is-unique'} }
+            })
         };
     }]);
