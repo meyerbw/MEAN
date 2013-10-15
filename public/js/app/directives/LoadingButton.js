@@ -5,6 +5,10 @@ angular.module('mean')
             scope: true,
             link: function (scope, el, atts) {
                 atts.$observe('loading', function (value) {
+
+                    if(!value)
+                        return;
+
                     var casedVal = value.toLowerCase();
 
                     var isTrue = (casedVal === "true" || casedVal === "yes" || casedVal === "1" );

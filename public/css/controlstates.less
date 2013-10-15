@@ -1,0 +1,70 @@
+
+.form-group {
+  &.has-error {
+    .input-group:after {
+      top: 3px;
+      right: 3px;
+      position: absolute;
+      float: left;
+      content: 'error';
+      display: inline-block;
+      color: @state-danger-text;
+      background-color: @state-danger-bg;
+      padding: 3px 5px;
+      border: solid 1px @state-danger-border;
+      border-radius: 3px;
+    }
+    &.required {
+      .input-group:after {
+        content: 'required';
+      }
+    }
+    &.invalid {
+      .input-group:after {
+        content: 'invalid';
+      }
+    }
+    &.invalid-email {
+      .input-group:after {
+        content: 'Invalid email';
+      }
+    }
+  }
+
+  &.has-success {
+    .input-group:after {
+      top: 3px;
+      right: 3px;
+      position: absolute;
+      float: left;
+      content: 'ok';
+      display: inline-block;
+      color: @state-success-text;
+      background-color: @state-success-bg;
+      padding: 3px 5px;
+      border: solid 1px @state-success-border;
+      border-radius: 3px;
+    }
+  }
+
+  &.has-warning {
+    .input-group:after {
+      top: 3px;
+      right: 3px;
+      position: absolute;
+      float: left;
+      content: 'warning';
+      display: inline-block;
+      color: @state-warning-text;
+      background-color: @state-warning-bg;
+      padding: 3px 5px;
+      border: solid 1px @state-warning-border;
+      border-radius: 3px;
+    }
+    &.optional {
+      .input-group:after {
+        content: 'optional';
+      }
+    }
+  }
+}

@@ -2,16 +2,14 @@ angular.module('mean')
     .controller('ForgotPasswordController', ['$scope', 'REST', function ($scope, REST) {
 
         $scope.ForgotPassword = new REST.ForgotPassword();
-        $scope.ButtonText = 'Rest Password';
 
         function startProcessing() {
             $scope.ProcessingRequest  = true;
-            $scope.ButtonText = 'Sending...';
+            $scope.Errors = [];
         }
 
         function endProcessing() {
             $scope.ProcessingRequest  = false;
-            $scope.ButtonText = 'Rest Password';
         }
 
         var RequestError = function (response) {
@@ -19,7 +17,14 @@ angular.module('mean')
 
             $scope.RequestComplete = false;
             $scope.HasErrors = true;
-            $scope.Errors = response.data;
+            if(angular.isArray(response.data)) {
+                angular.forEach(response.data, function(error) {
+                    $scope.Errors.push({message:error});
+                });
+            }
+            else
+                $scope.Errors.push({message:response.data});
+
         };
 
         var RequestSuccess = function () {

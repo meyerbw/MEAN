@@ -1,1 +1,1 @@
-angular.module('mean', [])
+angular.module('mean', ['ngResource'])

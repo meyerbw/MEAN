@@ -4,7 +4,6 @@
  */
 
 var express = require('express')
-
     , winston = require('winston');
 
 module.exports = function (app, config, passport) {
@@ -22,7 +21,7 @@ module.exports = function (app, config, passport) {
     app.use(express.favicon());
 
 
-    app.use(require('connect-assets')({src: 'public', build: true }));
+    app.use(require('connect-assets')({src: 'public', build: false }));
     app.use(express.static(config.root + '/public'));
 
     // set views path, template engine and default layout

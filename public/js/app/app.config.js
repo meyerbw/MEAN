@@ -1,7 +1,7 @@
 angular.module('mean')
     .constant('EndPointUrls', {
-        Login: '/login',
-        ForgotYourPassword: '/forgot-password',
+        SignIn: '/sign-in',
+        ForgotPassword: '/forgot-password',
         Register: '/register',
         ResetPassword: '/reset-password'
     });

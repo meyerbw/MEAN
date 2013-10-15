@@ -4,12 +4,42 @@ block head
     != css('single-form')
 
 block content
-  form(method="POST").form-single
-      h2.form-single-heading Please sign in
-      input(name="email", type="text", placeholder="Email Address").form-control
-      input(name="password", type="password", placeholder="Password").form-control
-      input(type="submit", value="Sign in").btn.btn-primary.btn-lg.btn-block
-      p
-        a(href="forgot-password") Forgot your passowrd?
-        br
-        a(href="register  ") Create an account
+    .panel.col-md-offset-4.col-md-4(ng-controller="SignInController")
+        h2.form-single-heading Sign in
+        p Welcome to M.E.A.N. please sign in.
+
+        div.alert.alert-success.ng-cloak(ng-show="RequestComplete")
+            strong Success.
+            | Please wait while we sign you in.
+
+        div.alert.alert-danger.ng-cloak(ng-show="HasErrors")
+            strong Error.
+            |  There was one or more errors. Please correct them and try again.
+            ul.unstyled
+                li(ng-repeat="error in Errors") {{error.message}}
+
+        form(name="SignInForm", autocomplete="off", novalidate, ng-submit="Submit()", ng-show='!RequestComplete')
+            .form-group(ng-class="{'has-error required': SignInForm.email.$dirty && SignInForm.email.$invalid, 'has-success':SignInForm.email.$dirty && !SignInForm.email.$invalid, 'invalid-email':SignInForm.email.$dirty && SignInForm.email.$error.email}")
+                label.sr-only Email Address
+                .input-group
+                    span.input-group-addon
+                        i.glyphicon.glyphicon-user.glyphicon-user
+                    input(ng-model="SignIn.email", name="email", type="email", placeholder="Email Address", required='required', ng-disabled="ProcessingRequest").form-control
+                p.help-block.ng-cloak(ng-show="SignInForm.email.$dirty && SignInForm.email.$error.required")
+                    | This field is required
+                p.help-block.ng-cloak(ng-show="SignInForm.email.$dirty && SignInForm.email.$error.email")
+                    | Please enter a valid email address
+
+            .form-group(ng-class="{'has-error required': SignInForm.password.$dirty && SignInForm.password.$invalid, 'has-success':SignInForm.password.$dirty && !SignInForm.password.$invalid}")
+                label.sr-only Password
+                .input-group
+                    span.input-group-addon
+                        i.glyphicon.glyphicon-lock
+                    input(ng-model="SignIn.password", name="password", type="password", placeholder="Password", required='required', ng-disabled="ProcessingRequest").form-control
+                p.help-block.ng-cloak(ng-show="SignInForm.password.$dirty && SignInForm.password.$error.required")
+                    | This field is required
+            .form-group
+                button(type="submit", loading-button, data-loading="{{ProcessingRequest}}", data-loading-text="Authenticating...", ng-disabled="SignInForm.$invalid || SignInForm.$pristine").btn.btn-primary.btn-lg.btn-block Sign In
+            .form-group.row
+                a(href="/forgot-password").col-md-6 Forgot your passowrd?
+                a(href="/register ").col-md-6.text-right Create an account

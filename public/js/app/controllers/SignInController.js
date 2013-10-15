@@ -1,17 +1,15 @@
 angular.module('mean')
-    .controller('LoginController', ['$scope', 'REST', function ($scope, REST) {
+    .controller('SignInController', ['$scope', '$window', 'REST', function ($scope, $window, REST) {
 
-        $scope.Login = new REST.Login();
-        $scope.ButtonText = 'Sign in';
+        $scope.SignIn = new REST.SignIn();
 
         function startProcessing() {
             $scope.ProcessingRequest  = true;
-            $scope.ButtonText = 'Authenticating...';
+            $scope.Errors = [];
         }
 
         function endProcessing() {
             $scope.ProcessingRequest  = false;
-            $scope.ButtonText = 'Sign in';
         }
 
         var RequestError = function (response) {
@@ -19,7 +17,13 @@ angular.module('mean')
 
             $scope.RequestComplete = false;
             $scope.HasErrors = true;
-            $scope.Errors = response.data;
+            if(angular.isArray(response.data)) {
+                angular.forEach(response.data, function(error) {
+                    $scope.Errors.push({message:error});
+                });
+            }
+            else
+                $scope.Errors.push({message:response.data});
         };
 
         var RequestSuccess = function () {
@@ -28,11 +32,13 @@ angular.module('mean')
             $scope.RequestComplete = true;
             $scope.HasErrors = false;
             $scope.Errors = null;
+
+            $window.location.href = "/";
         };
 
         $scope.Submit = function () {
             startProcessing();
-            $scope.Login.$save(RequestSuccess, RequestError);
+            $scope.SignIn.$save(RequestSuccess, RequestError);
         };
 
     }]);

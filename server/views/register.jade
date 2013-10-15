@@ -4,10 +4,41 @@ block head
     != css('single-form')
 
 block content
-    form(method="POST").form-single
+    .panel.col-md-offset-4.col-md-4(ng-controller="RegisterController")
         h2.form-single-heading Register
-        input(name="email", type="text", placeholder="Email Address").form-control
-        input(name="password", type="password", placeholder="Password").form-control
-        input(type="submit", value="Register").btn.btn-primary.btn-lg.btn-block
-        p
-            a(href="/sign-in") Whoops I alreay have an account
+        p Please register
+
+        div.alert.alert-success.ng-cloak(ng-show="RequestComplete")
+            strong Success.
+            | Please wait while we sign you in.
+
+        div.alert.alert-danger.ng-cloak(ng-show="HasErrors")
+            strong Error.
+            | There was one or more errors. Please correct them and try again.
+            ul.unstyled
+                li(ng-repeat="error in Errors") {{error.message}}
+
+        form(name="RegisterForm", autocomplete="off", novalidate, ng-submit="Submit()", ng-show='!RequestComplete')
+            .form-group(ng-class="{'has-error required': RegisterForm.email.$dirty && RegisterForm.email.$invalid, 'has-success':RegisterForm.email.$dirty && !RegisterForm.email.$invalid, 'invalid-email':RegisterForm.email.$dirty && RegisterForm.email.$error.email}")
+                label.sr-only Email Address
+                .input-group
+                    span.input-group-addon
+                        i.glyphicon.glyphicon-user.glyphicon-user
+                    input(ng-model="Register.email", name="email", type="email", placeholder="Email Address", required='required', ng-disabled="ProcessingRequest").form-control
+                p.help-block.ng-cloak(ng-show="RegisterForm.email.$dirty && RegisterForm.email.$error.required")
+                    | This field is required
+                p.help-block.ng-cloak(ng-show="RegisterForm.email.$dirty && RegisterForm.email.$error.email")
+                    | Please enter a valid email address
+
+            .form-group(ng-class="{'has-error required': RegisterForm.password.$dirty && RegisterForm.password.$invalid, 'has-success':RegisterForm.password.$dirty && !RegisterForm.password.$invalid}")
+                label.sr-only Password
+                .input-group
+                    span.input-group-addon
+                        i.glyphicon.glyphicon-lock
+                    input(ng-model="Register.password", name="password", type="password", placeholder="Password", required='required', ng-disabled="ProcessingRequest").form-control
+                p.help-block.ng-cloak(ng-show="RegisterForm.password.$dirty && RegisterForm.password.$error.required")
+                    | This field is required
+            .form-group
+                button(type="submit", loading-button, data-loading="{{ProcessingRequest}}", data-loading-text="Creating account..." ng-disabled="RegisterForm.$invalid || RegisterForm.$pristine").btn.btn-primary.btn-lg.btn-block Register
+            .form-group
+                a(href="/sign-in") Whoops I alreay have an account
