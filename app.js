@@ -13,7 +13,7 @@ var express = require('express')
 
 require('./config/mongooseConfig.js')(mongoose, config);
 require('./config/mailerConfig')(mailer, config);
-require('./config/passportConfig')(passport);
+require('./config/passportConfig')(passport, config);
 require('./config/winstonConfig')(winston, config);
 
 //config express

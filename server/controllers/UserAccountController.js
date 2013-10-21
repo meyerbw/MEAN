@@ -1,5 +1,15 @@
 var winston = require('winston');
 
+var passThrough = function(req, res) { };
+var returnTo = function (req, res) {
+    if (req.session.returnTo) {
+        res.redirect(req.session.returnTo);
+        delete req.session.returnTo;
+        return;
+    }
+    res.redirect('/');
+};
+
 exports.ShowSignIn = function(req, res) {
     res.render('signin', {title: "SignIn"});
 };
@@ -7,20 +17,20 @@ exports.SignIn = function(req, res, next) {
     var userAccountService = require('../services/UserAccountService').createService();
     userAccountService.authenticate(req.body.email, req.body.password);
 
-    userAccountService.once('Error', function (error) {
-        res.send(400, error);
+    userAccountService.on('Error', function (error) {
+        res.send(400, 'An error occurred ' + error);
         winston.error(error);
     });
 
-    userAccountService.once('UnableToFindUser', function () {
+    userAccountService.on('UnableToFindUser', function () {
         res.send(400, 'Unable to find user');
     });
 
-    userAccountService.once('UnableToAuthenticateUser', function() {
+    userAccountService.on('UnableToAuthenticateUser', function() {
         res.send(400, 'Unable to authenticate user');
     });
 
-    userAccountService.once('SuccessfullyAuthenticated', function (user) {
+    userAccountService.on('SuccessfullyAuthenticated', function (user) {
         req.login(user, function(err) {
             if (err) { return next(err); }
             return res.redirect('/');
@@ -35,17 +45,17 @@ exports.ForgotPassword = function(req, res) {
     var userAccountService = require('../services/UserAccountService').createService();
     userAccountService.forgotPassword(req.body.email);
 
-    userAccountService.once('Error', function (error) {
+    userAccountService.on('Error', function (error) {
         res.send(400, 'An error occurred ' + error);
         winston.error(error);
     });
 
-    userAccountService.once('UnableToFindUser', function () {
+    userAccountService.on('UnableToFindUser', function () {
         res.send(400, 'Unable to find user');
     });
 
-    userAccountService.once('SuccessfullySentForgotPasswordEmail', function () {
-        res.send(200);
+    userAccountService.on('SuccessfullySentForgotPasswordEmail', function (user) {
+        res.send(200, 'G2G');
     });
 };
 
@@ -56,16 +66,16 @@ exports.ResetPassword = function(req, res) {
     var userAccountService = require('../services/UserAccountService').createService();
     userAccountService.resetPassword(req.body.resetKey, req.body.password);
 
-    userAccountService.once('Error', function (error) {
+    userAccountService.on('Error', function (error) {
         res.send(400, 'An error occurred ' + error);
         winston.error(error);
     });
 
-    userAccountService.once('UnableToFindUser', function () {
+    userAccountService.on('UnableToFindUser', function () {
         res.send(400, 'Unable to find user');
     });
 
-    userAccountService.once('SuccessfullySentResetPasswordEmail', function () {
+    userAccountService.on('SuccessfullySentResetPasswordEmail', function (user) {
         res.send(200, 'G2G');
     });
 };
@@ -78,7 +88,7 @@ exports.Register = function(req, res, next) {
     userAccountService.register(req.body.email, req.body.password);
 
 
-    userAccountService.once('Error', function (error) {
+    userAccountService.on('Error', function (error) {
         res.send(400, 'An error occurred ' + error);
         winston.error(error);
     });
@@ -112,3 +122,9 @@ exports.isUnique = function(req, res) {
         res.send(200, {isValid: false} );
     });
 };
+
+
+
+//Social Sign In
+exports.socialSignIn = passThrough;
+exports.authCallback = returnTo;

@@ -10,7 +10,12 @@ module.exports = {
         db: 'your mongo connection here',
         root: rootPath,
         keys: {
-          postMark: 'Your API Key Here'
+            postMark: 'Your API Key Here',
+            google: {
+                key: '',
+                secret: '',
+                callback: "http://localhost:3000/auth/google"
+            }
         },
         logging: {
             logfile: 'site-log.txt'

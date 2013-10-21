@@ -1,6 +1,6 @@
 var UserAccountController = require('../server/controllers/UserAccountController')
-    , siteController = require('../server/controllers/siteController')
-    , pass = require('./passportConfig') ;
+    , siteController = require('../server/controllers/siteController');
+//    , passportConfig = require('./passportConfig') ;
 
 
 var ensureAuthenticated = function (req, res, next) {
@@ -8,7 +8,7 @@ var ensureAuthenticated = function (req, res, next) {
     res.redirect('/sign-in')
 };
 
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
     app.get('/', ensureAuthenticated, siteController.index);
 
@@ -29,6 +29,21 @@ module.exports = function(app) {
     app.post('/register', UserAccountController.Register);
 
     app.post('/user/is-unique', UserAccountController.isUnique)
+
+    app.get('/auth/google',
+        passport.authenticate('google', {
+            failureRedirect: '/sign-in',
+            scope: [
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email'
+            ]
+        }), UserAccountController.socialSignIn);
+
+    app.get('/auth/google/callback',
+        passport.authenticate('google', {
+            failureRedirect: '/login'
+        }), UserAccountController.authCallback);
+
 
 
 };
