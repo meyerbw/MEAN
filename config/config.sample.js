@@ -9,6 +9,9 @@ module.exports = {
         defaultFromAddress: 'your email here',
         db: 'your mongo connection here',
         root: rootPath,
+        app: {
+            name: 'your application name'
+        },
         keys: {
             postMark: 'Your API Key Here',
             google: {
